@@ -3,6 +3,17 @@
   'use strict';
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* i18n se resuelve en cada llamada, no al cargar: así no importa el orden en
+     que se ejecuten los dos scripts ni cuándo quede publicado window.VMi18n. */
+  function t(es) {
+    return window.VMi18n ? window.VMi18n.t(es) : es;
+  }
+  function onLang(fn) {
+    if (window.VMi18n) { window.VMi18n.onChange(fn); return; }
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.VMi18n) { window.VMi18n.onChange(fn); fn(); }
+    });
+  }
 
   /* ===================  Menú móvil  =================================== */
   var burger = document.getElementById('burger');
@@ -11,7 +22,7 @@
 
   function setMenu(open) {
     burger.setAttribute('aria-expanded', String(open));
-    burger.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    burger.setAttribute('aria-label', t(open ? 'Cerrar menú' : 'Abrir menú'));
     nav.classList.toggle('is-open', open);
     document.body.classList.toggle('nav-locked', open);
     if (open) {
@@ -161,14 +172,51 @@
   /* ===================  Desplegables  ================================= */
   document.querySelectorAll('.disclose__trigger').forEach(function (btn) {
     var label = btn.querySelector('span');
-    var abrir = label ? label.textContent : '';
+    if (!label) return;
+    var abrir = label.textContent.trim();            // "Ver detalle" / "Ver perfil"
     var cerrar = abrir.replace(/^Ver/, 'Ocultar');
 
-    btn.addEventListener('click', function () {
+    // Se redibuja a partir del estado actual: así sobrevive a un cambio de idioma
+    // con el panel abierto.
+    function render() {
       var open = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!open));
-      if (label) label.textContent = open ? abrir : cerrar;
+      label.textContent = t(open ? cerrar : abrir);
+    }
+
+    var panel = document.getElementById(btn.getAttribute('aria-controls'));
+    var inner = panel ? panel.firstElementChild : null;
+
+    function setOpen(open) {
+      btn.setAttribute('aria-expanded', String(open));
+      render();
+      if (!panel || !inner) return;
+
+      if (reduced) {                       // sin animación si así lo pidió el sistema
+        panel.style.height = open ? 'auto' : '0px';
+        return;
+      }
+
+      if (open) {
+        panel.style.height = inner.offsetHeight + 'px';
+        var done = function (e) {
+          if (e.target !== panel || e.propertyName !== 'height') return;
+          panel.style.height = 'auto';     // así crece solo si cambia el contenido
+          panel.removeEventListener('transitionend', done);
+        };
+        panel.addEventListener('transitionend', done);
+      } else {
+        panel.style.height = inner.offsetHeight + 'px';
+        void panel.offsetHeight;           // reflujo: sin esto no hay transición desde auto
+        panel.style.height = '0px';
+      }
+    }
+
+    btn.addEventListener('click', function () {
+      setOpen(btn.getAttribute('aria-expanded') !== 'true');
     });
+
+    onLang(render);
+    render();
   });
 
   /* ===================  Filtro de circulares  ========================= */
@@ -271,7 +319,7 @@
 
     function showError(field, msg) {
       var box = form.querySelector('[data-error-for="' + field.id + '"]');
-      if (box) box.textContent = msg || '';
+      if (box) box.textContent = msg ? t(msg) : '';
       field.classList.toggle('is-invalid', Boolean(msg));
       if (msg) field.setAttribute('aria-invalid', 'true');
       else field.removeAttribute('aria-invalid');
@@ -311,20 +359,11 @@
 
       // Demostración: no se envía información a ningún servidor.
       if (ok) ok.hidden = false;
-      form.querySelector('button[type="submit"]').textContent = 'Solicitud enviada';
+      var send = form.querySelector('button[type="submit"]');
+      send.textContent = t('Solicitud enviada');
+      onLang(function () { send.textContent = t('Solicitud enviada'); });
       fields.forEach(function (f) { f.disabled = true; });
     });
   }
 
-  /* ===================  Selector de idioma (demo)  ==================== */
-  document.querySelectorAll('.topbar__lang button').forEach(function (b) {
-    b.addEventListener('click', function () {
-      document.querySelectorAll('.topbar__lang button').forEach(function (x) {
-        x.classList.remove('is-active');
-        x.setAttribute('aria-pressed', 'false');
-      });
-      b.classList.add('is-active');
-      b.setAttribute('aria-pressed', 'true');
-    });
-  });
 })();

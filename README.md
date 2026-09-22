@@ -116,6 +116,13 @@ firma.
   scroll. En móvil las flechas van superpuestas a los lados del track y
   centradas en vertical, lejos de los botones flotantes del borde inferior;
   de tablet en adelante pasan a la fila de controles.
+- **Bilingüe real.** El selector ES/EN ya no es decorativo: `assets/js/i18n.js`
+  lleva la traducción de las 173 cadenas del sitio y las intercambia sobre los
+  nodos de texto ya renderizados, sin recarga ni segunda página que mantener.
+  También cambia `<html lang>`, el `<title>`, la meta descripción, los
+  `aria-label` y el `placeholder` del buscador, y recuerda la elección en
+  `localStorage`. Los nombres propios, las siglas (DIAN, ICA, M&A) y la
+  dirección no se traducen.
 - **Circulares bajo demanda.** La sección arranca sin ningún filtro
   seleccionado: se ven el buscador y las áreas, y la lista solo aparece al
   elegir un área, escribir algo o pulsar «Ver todas». Volver a tocar el área
@@ -144,12 +151,19 @@ firma.
 - **Textos de las áreas de práctica.** El sitio actual solo muestra los
   títulos, sin descripción. Los textos aquí son una propuesta de redacción
   y deben ser aprobados por la firma.
-- **Versión en inglés.** Está contemplada en el alcance; en esta
-  demostración el selector ENG/ESP es visual.
+- **Versión en inglés.** Ya funciona sobre las 173 cadenas del sitio. La
+  traducción es nuestra y debe ser revisada por la firma, sobre todo la
+  terminología legal y los perfiles del equipo.
 - **Circulares.** Se cargaron nueve reales, con sus PDF originales. En el
   sitio final se migra el archivo completo (más de 150).
 - **Formulario.** Valida en el navegador pero no envía: falta conectarlo al
   correo de la firma.
+- **Teléfono.** En pantalla está el número tal como lo publica el sitio oficial
+  (`+57 444 2346`). Hay que confirmar el fijo completo con indicativo para que
+  sea marcable desde el exterior.
+- **WhatsApp.** El botón flotante está retirado: apuntaba al fijo de la oficina,
+  que no tiene WhatsApp, y en la demo abría un chat inexistente. Se restaura en
+  cuanto la firma confirme el celular.
 - **Propuesta económica.** Se entrega en documento aparte.
 
 ---

@@ -404,13 +404,15 @@ body.nav-locked { overflow: hidden; }
 }
 .disclose__trigger[aria-expanded="true"] .chev { transform: rotate(180deg); }
 
-/* Animación de altura con grid: no necesita medir el contenido en JS. */
+/* La altura la anima el JS midiendo el contenido. La alternativa más limpia,
+   grid-template-rows 0fr→1fr, solo interpola en motores recientes; animar
+   `height` funciona en cualquiera y el JS deja `auto` al terminar, para que el
+   panel siga creciendo si el contenido cambia (por ejemplo, al cambiar idioma). */
 .disclose__panel {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows var(--dur) var(--ease);
+  height: 0;
+  overflow: hidden;
+  transition: height var(--dur) var(--ease);
 }
-.disclose__trigger[aria-expanded="true"] + .disclose__panel { grid-template-rows: 1fr; }
 .disclose__inner { overflow: hidden; }
 .disclose__inner > :first-child { padding-top: var(--sp-3); }
 .disclose__inner p { font-size: var(--fs-sm); font-weight: 300; color: var(--vm-muted); }
@@ -759,7 +761,9 @@ body.nav-locked { overflow: hidden; }
   .site-footer__bottom { flex-direction: row; justify-content: space-between; text-align: left; }
 }
 
-/* ==========================  Acciones flotantes  ========================= */
+/* ==========================  Acciones flotantes  =========================
+   .wa se conserva a la espera del número de celular correcto: el marcado del
+   botón está retirado del HTML, no estos estilos. */
 .wa {
   position: fixed; right: var(--gutter); z-index: 70;
   bottom: calc(var(--gutter) + env(safe-area-inset-bottom));

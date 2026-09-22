@@ -1,0 +1,30 @@
+# Copia para compartir — VM Legal
+
+## Principal (X / LinkedIn)
+Le medimos el sitio a una firma de abogados: 404 KB de HTML en 74 archivos,
+y el zoom bloqueado en el celular. El reemplazo pesa 109 KB en 6 archivos y no
+falla un solo criterio de contraste AA.
+👉 revupag.github.io/vmlegal-propuesta
+
+## Corta (X, con video adjunto)
+404 KB → 109 KB. 74 archivos → 6. El mismo contenido, una cuarta parte del peso.
+
+## LinkedIn (versión con contexto)
+Antes de proponer un rediseño, medimos. El sitio actual de esta firma entregaba
+404 KB de HTML en una sola página, repartidos en 74 archivos CSS y JS, sin un
+solo metadato para compartir y con el zoom bloqueado en móvil.
+
+El reemplazo: 109 KB en 6 archivos, mobile-first, y cero fallos de contraste
+WCAG AA en auditoría automática.
+
+La propuesta y el sitio terminado, navegables:
+revupag.github.io/vmlegal-propuesta
+
+## Discord / interno
+medimos el sitio de un cliente y daba 404 KB de HTML en 74 archivos 💀
+el que le hicimos pesa 109 KB en 6 → revupag.github.io/vmlegal-propuesta
+
+---
+Nota: ninguna versión nombra a la firma en la parte del diagnóstico. Si prefieren
+nombrarla, o al revés, quitarle también el logo del cierre al video, está anotado
+en brag-plan.md.

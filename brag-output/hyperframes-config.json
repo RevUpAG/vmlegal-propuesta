@@ -1,0 +1,242 @@
+{
+  "scenes": [
+    {
+      "id": "hook",
+      "duration": 2000,
+      "background": "#101820",
+      "elements": [
+        {
+          "type": "text",
+          "text": "404 KB",
+          "font": "Oswald",
+          "fontSize": 140,
+          "fontWeight": 200,
+          "color": "#FFFFFF",
+          "x": "center",
+          "y": "center",
+          "align": "center",
+          "animation": "slideInTop",
+          "animationDuration": 1000
+        },
+        {
+          "type": "text",
+          "text": "en una sola página",
+          "font": "Oswald",
+          "fontSize": 36,
+          "fontWeight": 100,
+          "color": "#A0A0A0",
+          "x": "center",
+          "y": "center+100",
+          "align": "center",
+          "animation": "fadeIn",
+          "animationDuration": 1000,
+          "animationDelay": 500
+        }
+      ],
+      "audio": {
+        "type": "music",
+        "file": "happy-beats-business-moves-vol-12-by-ende-dot-app.mp3",
+        "volume": 0.7,
+        "fadeIn": 500
+      }
+    },
+    {
+      "id": "diagnosis",
+      "duration": 5000,
+      "background": "#101820",
+      "elements": [
+        {
+          "type": "text",
+          "text": "404 KB",
+          "font": "Oswald",
+          "fontSize": 90,
+          "fontWeight": 400,
+          "color": "#FFFFFF",
+          "x": "center",
+          "y": "center-80",
+          "align": "center",
+          "animation": "slideInLeft",
+          "animationDuration": 800,
+          "animationDelay": 0
+        },
+        {
+          "type": "text",
+          "text": "74 archivos",
+          "font": "Oswald",
+          "fontSize": 90,
+          "fontWeight": 400,
+          "color": "#5CC8E8",
+          "x": "center",
+          "y": "center",
+          "align": "center",
+          "animation": "slideInLeft",
+          "animationDuration": 800,
+          "animationDelay": 1200
+        },
+        {
+          "type": "text",
+          "text": "0 metadatos",
+          "font": "Oswald",
+          "fontSize": 90,
+          "fontWeight": 400,
+          "color": "#5CC8E8",
+          "x": "center",
+          "y": "center+80",
+          "align": "center",
+          "animation": "slideInLeft",
+          "animationDuration": 800,
+          "animationDelay": 2400
+        }
+      ],
+      "sfx": [
+        {
+          "file": "click.mp3",
+          "time": 0,
+          "volume": 0.3
+        },
+        {
+          "file": "click.mp3",
+          "time": 1200,
+          "volume": 0.3
+        },
+        {
+          "file": "click.mp3",
+          "time": 2400,
+          "volume": 0.3
+        }
+      ]
+    },
+    {
+      "id": "transition",
+      "duration": 2000,
+      "background": "#000000",
+      "elements": [
+        {
+          "type": "text",
+          "text": "109 KB",
+          "font": "Oswald",
+          "fontSize": 90,
+          "fontWeight": 400,
+          "color": "#00FF00",
+          "x": "center",
+          "y": "center-60",
+          "align": "center",
+          "animation": "popIn",
+          "animationDuration": 600,
+          "animationDelay": 200
+        },
+        {
+          "type": "text",
+          "text": "6 archivos",
+          "font": "Oswald",
+          "fontSize": 90,
+          "fontWeight": 400,
+          "color": "#00FF00",
+          "x": "center",
+          "y": "center+60",
+          "align": "center",
+          "animation": "popIn",
+          "animationDuration": 600,
+          "animationDelay": 400
+        }
+      ],
+      "sfx": [
+        {
+          "file": "success.mp3",
+          "time": 600,
+          "volume": 0.4
+        }
+      ]
+    },
+    {
+      "id": "product-demo",
+      "duration": 8000,
+      "background": "#F2F7FB",
+      "elements": [
+        {
+          "type": "image",
+          "src": "iphone-frame.png",
+          "width": 400,
+          "height": 800,
+          "x": "center",
+          "y": "center",
+          "animation": "slideInUp",
+          "animationDuration": 500
+        },
+        {
+          "type": "text",
+          "text": "Interacción en tiempo real",
+          "font": "Open Sans",
+          "fontSize": 24,
+          "color": "#232323",
+          "x": "center",
+          "y": 100,
+          "align": "center"
+        }
+      ]
+    },
+    {
+      "id": "outro",
+      "duration": 3000,
+      "background": "#FFFFFF",
+      "elements": [
+        {
+          "type": "image",
+          "src": "logo-vmlegal.webp",
+          "width": 300,
+          "height": 120,
+          "x": "center",
+          "y": "center-80",
+          "animation": "slideInUp",
+          "animationDuration": 800
+        },
+        {
+          "type": "text",
+          "text": "El mismo contenido.",
+          "font": "Oswald",
+          "fontSize": 60,
+          "fontWeight": 400,
+          "color": "#04748f",
+          "x": "center",
+          "y": "center+60",
+          "align": "center",
+          "animation": "fadeIn",
+          "animationDuration": 800,
+          "animationDelay": 400
+        },
+        {
+          "type": "text",
+          "text": "Una cuarta parte del peso.",
+          "font": "Oswald",
+          "fontSize": 48,
+          "fontWeight": 200,
+          "color": "#04748f",
+          "x": "center",
+          "y": "center+120",
+          "align": "center",
+          "animation": "fadeIn",
+          "animationDuration": 800,
+          "animationDelay": 600
+        }
+      ],
+      "audio": {
+        "type": "music",
+        "volume": 0.9,
+        "fadeOut": 500
+      }
+    }
+  ],
+  "output": {
+    "format": "mp4",
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "codec": "h264"
+  },
+  "metadata": {
+    "title": "VM Legal — Propuesta de Sitio Web",
+    "duration": 22000,
+    "tone": "polished",
+    "project": "vm-legal-proposal"
+  }
+}
