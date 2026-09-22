@@ -3,8 +3,13 @@
 Propuesta comercial y demostración navegable del nuevo sitio web de
 **VM Legal S.A.S.** (Medellín, Colombia).
 
-> **Ver la propuesta:** abra `index.html`
-> **Ver el sitio terminado:** botón “Sí, quiero ver mi página” → `sitio/index.html`
+### ▶ Ver en vivo
+
+**https://revupag.github.io/vmlegal-propuesta/**
+
+Ese es el enlace para enviarle al cliente. Abre en la propuesta; el botón
+“Sí, quiero ver mi página” lleva al sitio terminado, y desde el sitio hay un
+enlace de vuelta. Pensado para abrirse desde el celular.
 
 ---
 
@@ -77,23 +82,23 @@ Y abrir `http://localhost:4173`.
 
 ---
 
-## Cómo publicarlo en GitHub Pages
+## Publicación
 
-1. Cree un repositorio vacío en GitHub (por ejemplo `vmlegal-propuesta`).
-2. Conecte y suba este proyecto:
+Ya está publicado con **GitHub Pages** desde la rama `main`, carpeta raíz.
+El archivo `.nojekyll` hace que GitHub sirva la carpeta tal cual, sin
+procesarla.
+
+Para actualizar el sitio en vivo basta con subir los cambios; el deploy
+tarda un par de minutos:
 
 ```bash
-git remote add origin https://github.com/USUARIO/vmlegal-propuesta.git
-git push -u origin main
+git add -A && git commit -m "..." && git push
 ```
 
-3. En GitHub: **Settings → Pages → Source: Deploy from a branch →
-   Branch `main` / carpeta `/ (root)`**.
-4. A los pocos minutos queda publicado en
-   `https://USUARIO.github.io/vmlegal-propuesta/`.
-
-El archivo `.nojekyll` ya está incluido para que GitHub publique la carpeta
-tal cual, sin procesarla.
+Ambas páginas llevan `<meta name="robots" content="noindex, nofollow">`,
+así que no aparecen en Google aunque el repositorio sea público. Conviene
+quitarlo el día que el sitio se publique de verdad bajo el dominio de la
+firma.
 
 ---
 
