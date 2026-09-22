@@ -172,44 +172,76 @@
   });
 
   /* ===================  Filtro de circulares  ========================= */
+  /* Arranca sin nada seleccionado: se muestran las opciones y el buscador,
+     y la lista solo aparece cuando el visitante elige un área o escribe.
+     Así la sección no alarga la página de entrada. */
   var list  = document.getElementById('circulars');
   var input = document.getElementById('q');
   var empty = document.getElementById('circularsEmpty');
+  var start = document.getElementById('circularsStart');
+  var verTodas = document.getElementById('verTodas');
   var chips = document.querySelectorAll('.chip');
 
   if (list) {
     var items  = Array.prototype.slice.call(list.querySelectorAll('.circular'));
-    var area   = 'todas';
+    var area   = null;   // null = ningún área elegida
     var needle = '';
 
     function normalize(s) {
-      return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+      return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
+    function setChip(value) {
+      area = value;
+      chips.forEach(function (c) {
+        var on = c.dataset.filter === value;
+        c.classList.toggle('is-active', on);
+        c.setAttribute('aria-pressed', String(on));
+      });
     }
 
     function apply() {
+      // Sin área ni búsqueda: no se lista nada, solo la invitación.
+      if (!area && !needle) {
+        items.forEach(function (li) { li.hidden = true; });
+        list.hidden = true;
+        if (start) start.hidden = false;
+        if (empty) empty.hidden = true;
+        return;
+      }
+
+      if (start) start.hidden = true;
+      list.hidden = false;
+
       var shown = 0;
       items.forEach(function (li) {
-        var matchArea = area === 'todas' || li.dataset.area === area;
+        var matchArea = !area || area === 'todas' || li.dataset.area === area;
         var matchText = !needle || normalize(li.textContent).indexOf(needle) !== -1;
         var show = matchArea && matchText;
         li.hidden = !show;
         if (show) shown++;
       });
+
       if (empty) empty.hidden = shown !== 0;
+      list.hidden = shown === 0;
     }
 
     chips.forEach(function (chip) {
       chip.addEventListener('click', function () {
-        chips.forEach(function (c) {
-          c.classList.remove('is-active');
-          c.setAttribute('aria-pressed', 'false');
-        });
-        chip.classList.add('is-active');
-        chip.setAttribute('aria-pressed', 'true');
-        area = chip.dataset.filter;
+        // Volver a tocar el área activa la deselecciona.
+        setChip(chip.classList.contains('is-active') ? null : chip.dataset.filter);
         apply();
       });
     });
+
+    if (verTodas) {
+      verTodas.addEventListener('click', function () {
+        setChip('todas');
+        if (input) { input.value = ''; needle = ''; }
+        apply();
+        list.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+      });
+    }
 
     if (input) {
       var t;
@@ -221,6 +253,8 @@
         }, 140);
       });
     }
+
+    apply();
   }
 
   /* ===================  Validación del formulario  ==================== */

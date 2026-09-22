@@ -481,7 +481,7 @@
         <input type="search" id="q" placeholder="Buscar: renta, DIAN, patrimonio…" autocomplete="off">
       </div>
       <div class="filters__chips" role="group" aria-label="Filtrar por área">
-        <button type="button" class="chip is-active" data-filter="todas" aria-pressed="true">Todas</button>
+        <button type="button" class="chip" data-filter="todas" aria-pressed="false">Todas</button>
         <button type="button" class="chip" data-filter="tributario" aria-pressed="false">Tributario</button>
         <button type="button" class="chip" data-filter="societario" aria-pressed="false">Societario</button>
         <button type="button" class="chip" data-filter="cambiario" aria-pressed="false">Cambiario</button>
@@ -638,12 +638,17 @@
 
     </ul>
 
-    <p class="circulars__empty" id="circularsEmpty" hidden>
+    <p class="circulars__msg" id="circularsStart">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+      Elija un área o escriba una palabra clave para ver las circulares.
+    </p>
+
+    <p class="circulars__msg" id="circularsEmpty" hidden>
       No encontramos circulares con ese criterio. Pruebe con otra palabra o área.
     </p>
 
     <div class="circulars__foot reveal">
-      <a class="btn btn--ghost" href="#actualidad">Ver todas las circulares</a>
+      <button type="button" class="btn btn--ghost" id="verTodas">Ver todas las circulares</button>
       <p>Archivo completo desde 2017 · más de 150 publicaciones</p>
     </div>
   </div>

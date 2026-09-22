@@ -315,12 +315,46 @@ body.nav-locked { overflow: hidden; }
 }
 .carousel__dots i.is-on { background: var(--vm-teal); width: 30px; }
 
-/* En móvil se desliza con el dedo: las flechas sobran y además chocarían
-   con el botón flotante de WhatsApp. Aparecen de tablet en adelante. */
-.carousel__arrows { display: none; gap: .5rem; margin-left: auto; }
+/* En móvil las flechas van superpuestas a los lados del track y centradas
+   en vertical: así quedan lejos del borde inferior, donde están fijos el
+   botón de WhatsApp y el de volver a la propuesta. El contenedor no recibe
+   toques; solo los botones. */
+.carousel__arrows {
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 46px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding-inline: 2px;
+  pointer-events: none;
+  z-index: 3;
+}
+.carousel__arrows .carousel__arrow {
+  pointer-events: auto;
+  width: 40px; height: 40px;
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-md);
+}
+.carousel__arrows .carousel__arrow svg { width: 17px; height: 17px; }
+
 @media (min-width: 860px) {
   .carousel__controls { justify-content: space-between; }
-  .carousel__arrows { display: flex; }
+  .carousel__arrows {
+    position: static;
+    inset: auto;
+    padding-inline: 0;
+    gap: .5rem;
+    margin-left: auto;
+    pointer-events: auto;
+  }
+  .carousel__arrows .carousel__arrow {
+    width: 44px; height: 44px;
+    background: #fff;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+  }
+  .carousel__arrows .carousel__arrow svg { width: 19px; height: 19px; }
 }
 .carousel__arrow {
   display: grid; place-items: center;
@@ -340,7 +374,14 @@ body.nav-locked { overflow: hidden; }
   border-color: var(--vm-teal); color: var(--vm-teal-text);
   box-shadow: var(--shadow-sm);
 }
-.carousel__arrow:disabled { opacity: .3; cursor: default; }
+
+/* Deshabilitada: en móvil desaparece —es una capa sobre las tarjetas y un
+   círculo fantasma se leería como un error—; en escritorio se atenúa, que
+   ahí sí es la señal habitual. */
+.carousel__arrow:disabled { opacity: 0; pointer-events: none; }
+@media (min-width: 860px) {
+  .carousel__arrow:disabled { opacity: .3; pointer-events: auto; cursor: default; }
+}
 
 /* ==========================  Desplegable  ================================ */
 .disclose { margin-top: auto; padding-top: var(--sp-4); }
@@ -566,11 +607,21 @@ body.nav-locked { overflow: hidden; }
 }
 .circular__link:hover svg { transform: translate(2px, -2px); }
 
-.circulars__empty {
-  margin-top: var(--sp-6); padding: var(--sp-6);
-  background: #fff; border: 1px dashed var(--vm-line); border-radius: var(--radius-lg);
+.circulars__msg {
+  display: flex; flex-direction: column; align-items: center; gap: var(--sp-3);
+  padding: var(--sp-7) var(--sp-5);
+  background: #fff;
+  border: 1px dashed var(--vm-line);
+  border-radius: var(--radius-lg);
   text-align: center; color: var(--vm-muted); font-size: var(--fs-sm);
 }
+.circulars__msg[hidden] { display: none; }
+.circulars__msg svg {
+  width: 26px; height: 26px;
+  fill: none; stroke: var(--vm-teal); stroke-width: 1.5;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+#circulars[hidden] { display: none; }
 .circulars__foot {
   display: flex; flex-direction: column; align-items: center; gap: var(--sp-3);
   margin-top: var(--sp-7); text-align: center;

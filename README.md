@@ -111,9 +111,16 @@ firma.
   Tipografía fluida con `clamp()`, objetivos táctiles de 48 px mínimo y
   cero desplazamiento horizontal.
 - **Carruseles sin librerías.** Áreas y equipo usan `scroll-snap` nativo:
-  inercia real al deslizar en el celular, navegables con el teclado, y
-  flechas solo de tablet en adelante. Los puntos y el estado de las flechas
-  se sincronizan con la posición real del scroll.
+  inercia real al deslizar en el celular y navegables con el teclado. Los
+  puntos y el estado de las flechas se sincronizan con la posición real del
+  scroll. En móvil las flechas van superpuestas a los lados del track y
+  centradas en vertical, lejos de los botones flotantes del borde inferior;
+  de tablet en adelante pasan a la fila de controles.
+- **Circulares bajo demanda.** La sección arranca sin ningún filtro
+  seleccionado: se ven el buscador y las áreas, y la lista solo aparece al
+  elegir un área, escribir algo o pulsar «Ver todas». Volver a tocar el área
+  activa la deselecciona. Así la sección ocupa 785 px en lugar de 2.900 px
+  al entrar.
 - **Desplegables.** El detalle de cada área y cada perfil se abre con un
   `aria-expanded` y se anima con `grid-template-rows: 0fr → 1fr`, sin medir
   alturas en JavaScript.
