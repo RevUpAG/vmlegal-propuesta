@@ -88,6 +88,89 @@
     });
   }
 
+  /* ===================  Carruseles  =================================== */
+  /* El desplazamiento real lo hace el navegador (scroll-snap). Aquí solo se
+     sincronizan los puntos y las flechas con la posición actual. */
+  document.querySelectorAll('[data-carousel]').forEach(function (car) {
+    var track = car.querySelector('.carousel__track');
+    var items = Array.prototype.slice.call(track.children);
+    var dots  = car.querySelector('.carousel__dots');
+    var arrows = Array.prototype.slice.call(car.querySelectorAll('.carousel__arrow'));
+    if (!track || !items.length) return;
+
+    function step() {
+      var cs = getComputedStyle(track);
+      return items[0].getBoundingClientRect().width + (parseFloat(cs.gap) || 0);
+    }
+
+    // Cuántas tarjetas caben a la vez: define cuántas "páginas" hay.
+    // clientWidth incluye el padding lateral del track, que es sangrado y no
+    // espacio útil: hay que descontarlo o se cuenta una tarjeta de más.
+    function perView() {
+      var cs = getComputedStyle(track);
+      var util = track.clientWidth - (parseFloat(cs.paddingLeft) || 0) - (parseFloat(cs.paddingRight) || 0);
+      return Math.max(1, Math.round(util / step()));
+    }
+
+    function buildDots() {
+      if (!dots) return;
+      var pages = Math.max(1, items.length - perView() + 1);
+      dots.innerHTML = '';
+      for (var i = 0; i < pages; i++) dots.appendChild(document.createElement('i'));
+      sync();
+    }
+
+    function current() {
+      return Math.round(track.scrollLeft / step());
+    }
+
+    function sync() {
+      var i = current();
+      var max = track.scrollWidth - track.clientWidth;
+      if (dots) {
+        Array.prototype.forEach.call(dots.children, function (d, n) {
+          d.classList.toggle('is-on', n === Math.min(i, dots.children.length - 1));
+        });
+      }
+      arrows.forEach(function (b) {
+        var dir = +b.dataset.dir;
+        b.disabled = dir < 0 ? track.scrollLeft <= 2 : track.scrollLeft >= max - 2;
+      });
+    }
+
+    arrows.forEach(function (b) {
+      b.addEventListener('click', function () {
+        track.scrollBy({ left: step() * +b.dataset.dir, behavior: reduced ? 'auto' : 'smooth' });
+      });
+    });
+
+    var tick;
+    track.addEventListener('scroll', function () {
+      clearTimeout(tick);
+      tick = setTimeout(sync, 60);
+    }, { passive: true });
+
+    window.addEventListener('resize', function () {
+      clearTimeout(tick);
+      tick = setTimeout(buildDots, 150);
+    });
+
+    buildDots();
+  });
+
+  /* ===================  Desplegables  ================================= */
+  document.querySelectorAll('.disclose__trigger').forEach(function (btn) {
+    var label = btn.querySelector('span');
+    var abrir = label ? label.textContent : '';
+    var cerrar = abrir.replace(/^Ver/, 'Ocultar');
+
+    btn.addEventListener('click', function () {
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      if (label) label.textContent = open ? abrir : cerrar;
+    });
+  });
+
   /* ===================  Filtro de circulares  ========================= */
   var list  = document.getElementById('circulars');
   var input = document.getElementById('q');

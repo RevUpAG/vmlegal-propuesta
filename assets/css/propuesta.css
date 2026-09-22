@@ -124,8 +124,9 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--sp-4) var(--sp-5);
-  margin-top: var(--sp-8);
+  margin-top: var(--sp-7);
   padding-top: var(--sp-6);
+  padding-bottom: var(--sp-7);   /* espacio para el indicador de scroll */
   border-top: 1px solid var(--vm-line);
 }
 .hero__stats li { display: flex; flex-direction: column; gap: .15rem; }
@@ -139,23 +140,24 @@
 .hero__stats span { font-size: var(--fs-xs); color: var(--vm-muted); letter-spacing: .04em; }
 @media (min-width: 720px) { .hero__stats { grid-template-columns: repeat(4, 1fr); } }
 
+/* Sin botones en el hero, este indicador es la señal de que hay más abajo:
+   por eso se muestra en todos los tamaños. */
 .hero__scroll {
-  display: none;
+  display: grid; place-items: center;
+  position: absolute; left: 50%; bottom: 1.2rem;
+  transform: translateX(-50%);
+  width: 32px; height: 48px;
+  border: 1px solid var(--vm-line); border-radius: var(--radius-pill);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
 }
-@media (min-width: 900px) {
-  .hero__scroll {
-    display: grid; place-items: center;
-    position: absolute; left: 50%; bottom: 1.6rem;
-    transform: translateX(-50%);
-    width: 30px; height: 46px;
-    border: 1px solid var(--vm-line); border-radius: 999px;
-    background: #fff;
-  }
-  .hero__scroll span {
-    width: 3px; height: 8px; border-radius: 2px; background: var(--vm-teal);
-    animation: vmScroll 1.8s var(--ease) infinite;
-  }
-  @keyframes vmScroll { 0%,100% { transform: translateY(-5px); opacity: .3 } 50% { transform: translateY(5px); opacity: 1 } }
+.hero__scroll span {
+  width: 3px; height: 8px; border-radius: 2px; background: var(--vm-teal);
+  animation: vmScroll 1.8s var(--ease) infinite;
+}
+@keyframes vmScroll {
+  0%, 100% { transform: translateY(-5px); opacity: .3 }
+  50%      { transform: translateY(5px);  opacity: 1 }
 }
 
 /* ==========================  Secciones  ================================== */

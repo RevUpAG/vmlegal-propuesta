@@ -269,34 +269,139 @@ body.nav-locked { overflow: hidden; }
 }
 .s-firma__pillars p { font-size: var(--fs-sm); font-weight: 300; }
 
+/* ==========================  Carrusel  =================================== */
+/* Desplazamiento nativo con scroll-snap: sin librerías, con inercia real en
+   el celular y navegable con el teclado. Las flechas y los puntos son un
+   apoyo, no el único camino. */
+.carousel { position: relative; }
+
+.carousel__track {
+  display: flex;
+  gap: var(--sp-4);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  /* Sangrado a los bordes en móvil; alineado al contenedor en escritorio. */
+  padding-inline: max(var(--gutter), calc((100% - var(--maxw)) / 2 + var(--gutter)));
+  scroll-padding-inline-start: max(var(--gutter), calc((100% - var(--maxw)) / 2 + var(--gutter)));
+  padding-block: var(--sp-2) var(--sp-5);
+}
+.carousel__track::-webkit-scrollbar { display: none; }
+.carousel__track:focus-visible { outline: 3px solid var(--vm-teal); outline-offset: -3px; }
+
+.carousel__item {
+  flex: 0 0 min(84%, 340px);
+  scroll-snap-align: start;
+  display: flex;
+}
+.carousel__item > * { width: 100%; }
+
+@media (min-width: 760px)  { .carousel__item { flex-basis: min(46%, 380px); } }
+@media (min-width: 1100px) { .carousel__item { flex-basis: calc((var(--maxw) - 2 * var(--gutter) - 2 * var(--sp-4)) / 3); } }
+
+/* --- Controles ----------------------------------------------------------- */
+.carousel__controls {
+  display: flex; align-items: center; justify-content: center;
+  gap: var(--sp-4);
+  margin-top: var(--sp-2);
+}
+.carousel__dots { display: flex; gap: .4rem; }
+.carousel__dots i {
+  display: block; height: 4px; width: 16px; border-radius: 2px;
+  background: var(--vm-line);
+  transition: background var(--dur) var(--ease), width var(--dur) var(--ease);
+}
+.carousel__dots i.is-on { background: var(--vm-teal); width: 30px; }
+
+/* En móvil se desliza con el dedo: las flechas sobran y además chocarían
+   con el botón flotante de WhatsApp. Aparecen de tablet en adelante. */
+.carousel__arrows { display: none; gap: .5rem; margin-left: auto; }
+@media (min-width: 860px) {
+  .carousel__controls { justify-content: space-between; }
+  .carousel__arrows { display: flex; }
+}
+.carousel__arrow {
+  display: grid; place-items: center;
+  width: 44px; height: 44px;
+  border: 1px solid var(--vm-line);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  color: var(--vm-ink);
+  transition: all var(--dur) var(--ease);
+}
+.carousel__arrow svg {
+  width: 19px; height: 19px;
+  fill: none; stroke: currentColor; stroke-width: 1.8;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.carousel__arrow:hover:not(:disabled) {
+  border-color: var(--vm-teal); color: var(--vm-teal-text);
+  box-shadow: var(--shadow-sm);
+}
+.carousel__arrow:disabled { opacity: .3; cursor: default; }
+
+/* ==========================  Desplegable  ================================ */
+.disclose { margin-top: auto; padding-top: var(--sp-4); }
+
+.disclose__trigger {
+  display: inline-flex; align-items: center; gap: .45rem;
+  min-height: 40px;
+  font-family: var(--font-display);
+  font-size: var(--fs-xs);
+  letter-spacing: .13em; text-transform: uppercase;
+  color: var(--vm-teal-text);
+  transition: color var(--dur) var(--ease);
+}
+.disclose__trigger:hover { color: var(--vm-teal-hover); }
+.disclose__trigger .chev {
+  width: 15px; height: 15px;
+  fill: none; stroke: currentColor; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+  transition: transform var(--dur) var(--ease);
+}
+.disclose__trigger[aria-expanded="true"] .chev { transform: rotate(180deg); }
+
+/* Animación de altura con grid: no necesita medir el contenido en JS. */
+.disclose__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur) var(--ease);
+}
+.disclose__trigger[aria-expanded="true"] + .disclose__panel { grid-template-rows: 1fr; }
+.disclose__inner { overflow: hidden; }
+.disclose__inner > :first-child { padding-top: var(--sp-3); }
+.disclose__inner p { font-size: var(--fs-sm); font-weight: 300; color: var(--vm-muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  .disclose__panel { transition: none; }
+}
+
 /* ==========================  Áreas de práctica  ========================== */
-.area-head { margin-bottom: var(--sp-7); }
-.areas { display: grid; gap: var(--sp-4); }
-@media (min-width: 700px) { .areas { grid-template-columns: repeat(2, 1fr); gap: var(--sp-5); } }
+.sec-head { margin-bottom: var(--sp-6); }
 
 .area {
+  display: flex; flex-direction: column;
   background: #fff;
   border: 1px solid var(--vm-line);
   border-radius: var(--radius-lg);
   padding: var(--sp-6) var(--sp-5);
   box-shadow: var(--shadow-sm);
-  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease),
-              border-color var(--dur) var(--ease);
+  transition: box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
-.area:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--vm-mist);
-}
+.area:hover { box-shadow: var(--shadow-md); border-color: var(--vm-mist); }
+
 .area__icon {
   display: grid; place-items: center;
-  width: 52px; height: 52px;
+  width: 46px; height: 46px;
   border-radius: var(--radius);
   background: var(--vm-teal); color: #fff;
   margin-bottom: var(--sp-4);
 }
 .area__icon svg {
-  width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.4;
+  width: 23px; height: 23px;
+  fill: none; stroke: currentColor; stroke-width: 1.5;
   stroke-linecap: round; stroke-linejoin: round;
 }
 .area h3 {
@@ -304,7 +409,8 @@ body.nav-locked { overflow: hidden; }
   text-transform: uppercase; letter-spacing: .03em;
   margin-bottom: var(--sp-3);
 }
-.area p { font-size: var(--fs-sm); font-weight: 300; }
+.area__sum { font-size: var(--fs-sm); font-weight: 300; }
+
 .area__tags {
   display: flex; flex-wrap: wrap; gap: .4rem;
   margin-top: var(--sp-4);
@@ -314,29 +420,28 @@ body.nav-locked { overflow: hidden; }
   color: var(--vm-teal-text);
   background: var(--vm-mist-soft);
   border: 1px solid var(--vm-mist);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   padding: .28rem .7rem;
 }
 
 /* ==========================  Equipo  ===================================== */
-.team { display: grid; gap: var(--sp-4); margin-top: var(--sp-7); }
-@media (min-width: 680px) { .team { grid-template-columns: repeat(2, 1fr); gap: var(--sp-5); } }
-@media (min-width: 1040px) { .team { grid-template-columns: repeat(3, 1fr); } }
-
 .member {
+  display: flex; flex-direction: column;
   background: #fff;
   border: 1px solid var(--vm-line);
   border-radius: var(--radius-lg);
   padding: var(--sp-6) var(--sp-5);
-  transition: box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
-.member:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+.member:hover { box-shadow: var(--shadow-md); border-color: var(--vm-mist); }
+
 .member__avatar {
   display: grid; place-items: center;
-  width: 60px; height: 60px; border-radius: 50%;
+  width: 56px; height: 56px; border-radius: var(--radius-pill);
   background: linear-gradient(140deg, var(--vm-teal-solid), #035f76);
   color: #fff;
-  font-family: var(--font-display); font-size: 1.15rem; font-weight: 300;
+  font-family: var(--font-display); font-size: 1.1rem; font-weight: 300;
   letter-spacing: .06em;
   margin-bottom: var(--sp-4);
 }
@@ -347,7 +452,7 @@ body.nav-locked { overflow: hidden; }
   color: var(--vm-teal-text);
   margin-top: .4rem; margin-bottom: var(--sp-3);
 }
-.member__bio { font-size: var(--fs-sm); font-weight: 300; color: var(--vm-muted); }
+.member__sum { font-size: var(--fs-sm); font-weight: 300; color: var(--vm-muted); }
 
 /* ==========================  Actualidad  ================================= */
 .filters {

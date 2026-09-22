@@ -18,7 +18,7 @@ enlace de vuelta. Pensado para abrirse desde el celular.
 | Ruta | Qué es |
 |---|---|
 | `index.html` | La **propuesta**: diagnóstico del sitio actual, beneficios, comparativa antes/después, proceso y entregables. Termina en el CTA que lleva al sitio. |
-| `sitio/index.html` | El **sitio terminado**, navegable y funcional: inicio, la firma, áreas de práctica, equipo, actualidad con buscador y contacto. |
+| `sitio/index.html` | El **sitio terminado**, navegable y funcional: inicio, la firma, áreas de práctica y equipo en carrusel, actualidad con buscador y contacto. |
 | `assets/css/brand.css` | Sistema de marca: color, tipografía, escala y componentes base. |
 | `assets/css/propuesta.css` | Estilos de la propuesta. |
 | `assets/css/sitio.css` | Estilos del sitio. |
@@ -110,10 +110,18 @@ firma.
 - **Mobile-first.** Todo se diseñó primero a 375 px y luego se expandió.
   Tipografía fluida con `clamp()`, objetivos táctiles de 48 px mínimo y
   cero desplazamiento horizontal.
+- **Carruseles sin librerías.** Áreas y equipo usan `scroll-snap` nativo:
+  inercia real al deslizar en el celular, navegables con el teclado, y
+  flechas solo de tablet en adelante. Los puntos y el estado de las flechas
+  se sincronizan con la posición real del scroll.
+- **Desplegables.** El detalle de cada área y cada perfil se abre con un
+  `aria-expanded` y se anima con `grid-template-rows: 0fr → 1fr`, sin medir
+  alturas en JavaScript.
 - **Accesibilidad.** Un solo `h1` por página, jerarquía de encabezados sin
   saltos, todo el formulario etiquetado, navegación completa por teclado,
   foco visible, `prefers-reduced-motion` respetado y **cero fallos de
-  contraste** en la auditoría automática de ambas páginas.
+  contraste** en la auditoría automática de ambas páginas, incluso con todos
+  los desplegables abiertos.
 - **Rendimiento.** La página del sitio pesa **≈ 109 KB en 6 archivos**
   (≈ 181 KB contando las fuentes de Google). El sitio actual entrega
   404 KB solo de HTML, repartidos en 74 archivos CSS y JS.
