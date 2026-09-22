@@ -1,0 +1,137 @@
+# VM Legal — Propuesta de sitio web
+
+Propuesta comercial y demostración navegable del nuevo sitio web de
+**VM Legal S.A.S.** (Medellín, Colombia).
+
+> **Ver la propuesta:** abra `index.html`
+> **Ver el sitio terminado:** botón “Sí, quiero ver mi página” → `sitio/index.html`
+
+---
+
+## Qué contiene
+
+| Ruta | Qué es |
+|---|---|
+| `index.html` | La **propuesta**: diagnóstico del sitio actual, beneficios, comparativa antes/después, proceso y entregables. Termina en el CTA que lleva al sitio. |
+| `sitio/index.html` | El **sitio terminado**, navegable y funcional: inicio, la firma, áreas de práctica, equipo, actualidad con buscador y contacto. |
+| `assets/css/brand.css` | Sistema de marca: color, tipografía, escala y componentes base. |
+| `assets/css/propuesta.css` | Estilos de la propuesta. |
+| `assets/css/sitio.css` | Estilos del sitio. |
+| `assets/js/*.js` | Interacciones, sin librerías externas. |
+| `assets/img/` | Logo original de VM Legal en WebP y PNG, más el favicon. |
+
+---
+
+## Branding
+
+Todo se extrajo del sitio oficial `vmlegal.com.co`; nada se inventó.
+
+**Color** — muestreado píxel a píxel del logo original y del CSS del sitio:
+
+| Token | Valor | Origen | Uso |
+|---|---|---|---|
+| `--vm-teal` | `#0093BD` | Trazo «VM» del logo | Íconos, acentos, títulos grandes |
+| `--vm-teal-deep` | `#1986AC` | Acento de UI del sitio actual | Cifras y titulares secundarios |
+| `--vm-gray` | `#706F6F` | Palabra «Legal» del logo | Texto secundario |
+| `--vm-mist` | `#DFEAF3` | Fondo azul claro del sitio actual | Superficies y bordes |
+| `--vm-ink` | `#232323` | Barra oscura del sitio actual | Titulares y fondo oscuro |
+
+**Tipografía** — las mismas del sitio actual:
+**Oswald** para titulares (mayúsculas, peso ligero, letra espaciada) y
+**Open Sans** para el texto corrido.
+
+**Logo** — es el archivo original `LOGO-VM-LEGAL.png` de VM Legal, recortado
+al contenido y con el fondo blanco convertido en transparencia. No se
+redibujó, ni se cambiaron sus proporciones ni sus colores.
+
+### Una nota honesta sobre el color y la accesibilidad
+
+El teal del logo, `#0093BD`, da **3.55:1** de contraste sobre blanco. Eso
+alcanza para gráficos y títulos grandes, pero **no** para texto pequeño ni
+para texto blanco encima (WCAG AA exige 4.5:1).
+
+Para poder cumplir AA sin cambiar la marca, el texto pequeño en teal y los
+rellenos con texto blanco encima usan `#04748f` (**5.4:1**): el mismo color,
+solo oscurecido. El logo, los íconos y los titulares grandes conservan
+`#0093BD` exacto.
+
+Si el cliente prefiere el teal original en todas partes, es una línea en
+`assets/css/brand.css`:
+
+```css
+--vm-teal-text:  #0093BD;
+--vm-teal-solid: #0093BD;
+```
+
+---
+
+## Cómo verlo en local
+
+No requiere compilación ni dependencias. Basta con servir la carpeta:
+
+```bash
+python3 -m http.server 4173
+```
+
+Y abrir `http://localhost:4173`.
+
+---
+
+## Cómo publicarlo en GitHub Pages
+
+1. Cree un repositorio vacío en GitHub (por ejemplo `vmlegal-propuesta`).
+2. Conecte y suba este proyecto:
+
+```bash
+git remote add origin https://github.com/USUARIO/vmlegal-propuesta.git
+git push -u origin main
+```
+
+3. En GitHub: **Settings → Pages → Source: Deploy from a branch →
+   Branch `main` / carpeta `/ (root)`**.
+4. A los pocos minutos queda publicado en
+   `https://USUARIO.github.io/vmlegal-propuesta/`.
+
+El archivo `.nojekyll` ya está incluido para que GitHub publique la carpeta
+tal cual, sin procesarla.
+
+---
+
+## Decisiones técnicas
+
+- **HTML, CSS y JavaScript planos.** Sin framework, sin build, sin
+  dependencias. Se puede alojar en cualquier parte y sobrevive sin
+  mantenimiento.
+- **Mobile-first.** Todo se diseñó primero a 375 px y luego se expandió.
+  Tipografía fluida con `clamp()`, objetivos táctiles de 48 px mínimo y
+  cero desplazamiento horizontal.
+- **Accesibilidad.** Un solo `h1` por página, jerarquía de encabezados sin
+  saltos, todo el formulario etiquetado, navegación completa por teclado,
+  foco visible, `prefers-reduced-motion` respetado y **cero fallos de
+  contraste** en la auditoría automática de ambas páginas.
+- **Rendimiento.** La página del sitio pesa **≈ 109 KB en 6 archivos**
+  (≈ 181 KB contando las fuentes de Google). El sitio actual entrega
+  404 KB solo de HTML, repartidos en 74 archivos CSS y JS.
+- **Sin bloqueo de zoom.** El `viewport` no lleva `maximum-scale`, a
+  diferencia del sitio actual.
+
+---
+
+## Qué falta definir con el cliente
+
+- **Fotografías del equipo.** El sitio actual no las tiene, así que se usan
+  monogramas con las iniciales. Con fotos reales queda mejor.
+- **Textos de las áreas de práctica.** El sitio actual solo muestra los
+  títulos, sin descripción. Los textos aquí son una propuesta de redacción
+  y deben ser aprobados por la firma.
+- **Versión en inglés.** Está contemplada en el alcance; en esta
+  demostración el selector ENG/ESP es visual.
+- **Circulares.** Se cargaron nueve reales, con sus PDF originales. En el
+  sitio final se migra el archivo completo (más de 150).
+- **Formulario.** Valida en el navegador pero no envía: falta conectarlo al
+  correo de la firma.
+- **Propuesta económica.** Se entrega en documento aparte.
+
+---
+
+Preparado por **RevUp Agency Group** · 2026
